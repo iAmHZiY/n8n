@@ -186,7 +186,7 @@ export class WorkflowRunner {
 		} else if (executionsProcess === 'main') {
 			executionId = await this.runMainProcess(data, loadStaticData, executionId, responsePromise);
 		} else {
-			executionId = await this.runSubprocess(data, loadStaticData, executionId, responsePromise);
+			executionId = await this.runSubprocess(data as any, loadStaticData, executionId, responsePromise);
 		}
 
 		void Container.get(InternalHooks).onWorkflowBeforeExecute(executionId, data);
@@ -632,7 +632,7 @@ export class WorkflowRunner {
 	 *                                   the workflow and added to input data
 	 */
 	async runSubprocess(
-		data: IWorkflowExecutionDataProcess,
+		data: IWorkflowExecutionDataProcessWithExecution,
 		loadStaticData?: boolean,
 		restartExecutionId?: string,
 		responsePromise?: IDeferredPromise<IExecuteResponsePromiseData>,
@@ -641,11 +641,12 @@ export class WorkflowRunner {
 		let startedAt = new Date();
 		const subprocess = fork(pathJoin(__dirname, 'WorkflowRunnerProcess.js'));
 
-		if (loadStaticData === true && workflowId) {
-			data.workflowData.staticData = await WorkflowHelpers.getStaticDataById(workflowId);
-		}
+		// if (loadStaticData === true && workflowId) {
+		// 	data.workflowData.staticData = await WorkflowHelpers.getStaticDataById(workflowId);
+		// }
 
 		data.restartExecutionId = restartExecutionId;
+		data.connectConfig = config.get('database');
 
 		// Register the active execution
 		const executionId = await this.activeExecutions.add(data, subprocess, restartExecutionId);

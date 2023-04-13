@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-param-reassign */
-import type { INode, WebhookHttpMethod } from 'n8n-workflow';
+import type { INode, IWorkflowExecuteAdditionalData, WebhookHttpMethod } from 'n8n-workflow';
 import { NodeHelpers, Workflow, LoggerProxy as Logger } from 'n8n-workflow';
 import { Service } from 'typedi';
 import type express from 'express';
@@ -16,7 +16,7 @@ import { getWorkflowOwner } from '@/UserManagement/UserManagementHelper';
 
 @Service()
 export class WaitingWebhooks {
-	constructor(private nodeTypes: NodeTypes) {}
+	constructor(private nodeTypes: NodeTypes) { }
 
 	async executeWebhook(
 		httpMethod: WebhookHttpMethod,
@@ -92,14 +92,16 @@ export class WaitingWebhooks {
 			settings: workflowData.settings,
 		});
 
-		let workflowOwner;
-		try {
-			workflowOwner = await getWorkflowOwner(workflowData.id!.toString());
-		} catch (error) {
-			throw new ResponseHelper.NotFoundError('Could not find workflow');
-		}
+		// let workflowOwner;
+		// try {
+		// 	workflowOwner = await getWorkflowOwner(workflowData.id!.toString());
+		// } catch (error) {
+		// 	throw new ResponseHelper.NotFoundError('Could not find workflow');
+		// }
 
-		const additionalData = await WorkflowExecuteAdditionalData.getBase(workflowOwner.id);
+		// const additionalData = await WorkflowExecuteAdditionalData.getBase(workflowOwner.id);
+
+		const additionalData = {} as IWorkflowExecuteAdditionalData;
 
 		const webhookData = NodeHelpers.getNodeWebhooks(
 			workflow,

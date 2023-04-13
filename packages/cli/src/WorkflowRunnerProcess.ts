@@ -118,7 +118,7 @@ class WorkflowRunnerProcess {
 		await externalHooks.init();
 
 		// Init db since we need to read the license.
-		await Db.init();
+		await Db.init(undefined, this.data.connectConfig);
 
 		const instanceId = userSettings.instanceId ?? '';
 		await Container.get(PostHogClient).init(instanceId);

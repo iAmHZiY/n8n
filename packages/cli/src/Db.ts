@@ -93,9 +93,18 @@ export function getConnectionOptions(dbType: DatabaseType): ConnectionOptions {
 
 export async function init(
 	testConnectionOptions?: ConnectionOptions,
+	connectionConfig?: any
 ): Promise<IDatabaseCollections> {
 	if (isInitialized) return collections;
 
+	if (connectionConfig) {
+		config.set('database.type', 'mysqldb');
+		config.set('database.mysqldb.database', connectionConfig.mysqldb.database);
+		config.set('database.mysqldb.host', connectionConfig.mysqldb.host);
+		config.set('database.mysqldb.password', connectionConfig.mysqldb.password);
+		config.set('database.mysqldb.port', connectionConfig.mysqldb.port);
+		config.set('database.mysqldb.user', connectionConfig.mysqldb.user);
+	}
 	const dbType = config.getEnv('database.type');
 	const connectionOptions = testConnectionOptions ?? getConnectionOptions(dbType);
 
@@ -161,7 +170,7 @@ export async function init(
 			await connection.initialize();
 		}
 	} else {
-		await connection.runMigrations({ transaction: 'each' });
+		// await connection.runMigrations({ transaction: 'each' });
 	}
 
 	collections.AuthIdentity = Container.get(AuthIdentityRepository);

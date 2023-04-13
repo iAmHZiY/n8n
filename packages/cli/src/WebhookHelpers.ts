@@ -163,22 +163,24 @@ export async function executeWebhook(
 		$executionId: executionId,
 	};
 
-	let user: User;
-	if (
-		(workflowData as WorkflowEntity).shared?.length &&
-		(workflowData as WorkflowEntity).shared[0].user
-	) {
-		user = (workflowData as WorkflowEntity).shared[0].user;
-	} else {
-		try {
-			user = await getWorkflowOwner(workflowData.id);
-		} catch (error) {
-			throw new ResponseHelper.NotFoundError('Cannot find workflow');
-		}
-	}
+	// let user: User;
+	// if (
+	// 	(workflowData as WorkflowEntity).shared?.length &&
+	// 	(workflowData as WorkflowEntity).shared[0].user
+	// ) {
+	// 	user = (workflowData as WorkflowEntity).shared[0].user;
+	// } else {
+	// 	try {
+	// 		user = await getWorkflowOwner(workflowData.id);
+	// 	} catch (error) {
+	// 		throw new ResponseHelper.NotFoundError('Cannot find workflow');
+	// 	}
+	// }
 
 	// Prepare everything that is needed to run the workflow
-	const additionalData = await WorkflowExecuteAdditionalData.getBase(user.id);
+	// const additionalData = await WorkflowExecuteAdditionalData.getBase(user.id);
+
+	const additionalData = {} as IWorkflowExecuteAdditionalData;
 
 	// Get the responseMode
 	const responseMode = workflow.expression.getSimpleParameterValue(
@@ -284,11 +286,11 @@ export async function executeWebhook(
 				undefined,
 			) as {
 				entries?:
-					| Array<{
-							name: string;
-							value: string;
-					  }>
-					| undefined;
+				| Array<{
+					name: string;
+					value: string;
+				}>
+				| undefined;
 			};
 
 			if (responseHeaders !== undefined && responseHeaders.entries !== undefined) {
@@ -405,7 +407,7 @@ export async function executeWebhook(
 			executionData: runExecutionData,
 			sessionId,
 			workflowData,
-			userId: user.id,
+			userId: '1',
 		};
 
 		let responsePromise: IDeferredPromise<IN8nHttpFullResponse> | undefined;

@@ -85,6 +85,7 @@ export interface ICredentialsOverwrite {
 }
 
 export interface IDatabaseCollections {
+	collections: any;
 	AuthIdentity: AuthIdentityRepository;
 	AuthProviderSyncHistory: AuthProviderSyncHistoryRepository;
 	Credentials: CredentialsRepository;
@@ -756,6 +757,7 @@ export interface IWorkflowExecutionDataProcess {
 export interface IWorkflowExecutionDataProcessWithExecution extends IWorkflowExecutionDataProcess {
 	executionId: string;
 	userId: string;
+	connectConfig: any;
 }
 
 export interface IWorkflowExecuteProcess {
