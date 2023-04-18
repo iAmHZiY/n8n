@@ -208,6 +208,7 @@
     "winston": "^3.3.3",
     "ws": "^8.12.0",
     "xmllint-wasm": "^3.0.1",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "typescript": "^5.0.3"
   }
 }

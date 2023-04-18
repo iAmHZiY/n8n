@@ -85,6 +85,7 @@
     "vue": "^2.7.14",
     "vue-typed-mixins": "^0.2.0",
     "vue2-boring-avatars": "^0.3.8",
-    "xss": "^1.0.14"
+    "xss": "^1.0.14",
+    "typescript": "^5.0.3"
   }
 }
